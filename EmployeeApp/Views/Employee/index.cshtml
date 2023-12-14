@@ -9,18 +9,18 @@
 
 <p>
     @* <a asp-action="create" class="btn btn-primary btn-sm">Add</a> *@
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal"  data-bs-target="#exampleModal">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal"  data-bs-target="#saveEmployee">
         Add
     </button>
 </p>
 
 <!-- Button trigger modal -->
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="saveEmployee" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Details</h5>
+                <h5 class="modal-title" id="saveEmployeeLabel">Add Details</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -53,9 +53,9 @@
 
                     <div class="mb-3">
                         <label for="imageFile" class="form-label">Image : </label>
-                        <input id="imageFile" name="imageFile" id="imageFile" type="file" class="form-control">
+                        <input id="imageFile" name="imageFile"  type="file" class="form-control">
                     </div>
-                    <label id="label"></label>
+                    
                    @*  <button  class="btn btn-outline-primary mb-3">Submit</button> *@
 
                 @* </form> *@
@@ -73,7 +73,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Employee Update</h5>
+                <h5 class="modal-title" id="updateExampleModalLabel">Employee Update</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -104,7 +104,7 @@
 
                     <div class="mb-3">
                         <label for="imageFile" class="form-label">Image : </label>
-                        <input id="imageFileUpdate" name="imageFile" type="file" class="form-control" value="EmployeeModel.imageFile" />
+                        <input id="imageFileUpdate" name="imageFile" type="file" class="form-control" />
                     </div>
             </div>
             <div class="modal-footer">
@@ -121,7 +121,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Employee View</h5>
+                <h5 class="modal-title" id="viewExampleModalLabel">Employee View</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -203,6 +203,8 @@
 </table>
 
 <script>
+    
+    
     var datatable;
     $(document).ready(function () {
      
@@ -210,14 +212,16 @@
     });
     function getEmployeeList() {
        $.ajax({
+
             type: "Get",
             url: "/Employee/EmployeeList",
             success: function (data) {
+               
                 debugger;
                 datatable = $('#myTable').DataTable({
                     data: data,
                     columns: [
-                        { data: 'id' },
+                        { data: 'Id' },
                         { data: 'firstName' },
                         { data: 'lastName' },
                         { data: 'contactNumber' },
@@ -237,16 +241,14 @@
                                 // return '<button type="button"  class="btn btn-primary" href="/Employee/update/' + row.id + '>Edit</a> |  < a href = "/Employee/delete/' + row.id + '" class="btn btn-danger btn-sm" > Delete < /a>';
 
                                 return ` <button type="button" onclick="updateEmployee(` + row.id + `)" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateExampleModal">EDIT</button>| <button type="button" onclick="deleteEmployee(`+ row.id + `)" class="btn btn-primary" >DELETE</button>| <button type="button" onclick="viewEmployee(`+ row.id + `)" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewExampleModal">VIEW</button>`;
-                                // |
-                                // <button type="button" onclick="show(` + row.id + `)" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                //        show
-                                // </button>`
 
                             }
-                        }
+                        },
+
                     ]
                 });
                 // Success = true;//doesn't go here
+               
             },
             error: function (textStatus, errorThrown) {
                 Success = false; //doesn't go here
@@ -256,33 +258,58 @@
     }
     //Add Data Function
     function addemployee() {
-        // var res = validate();
-        // if (res == false) {
-        //     return false;
-        // }
+        debugger;
+
+       
+        
         var empObj = {
             firstName: $('#firstName').val(),
             lastName: $('#lastName').val(),
             contactNumber: $('#contactNumber').val(),
             emailId: $('#emailId').val(),
             age: $('#age').val(),
+            // imagePath: $('#imageFile')[0].files[0],
+           
+        }
+        
+        var formData=new FormData();
+        formData.append("model", JSON.stringify(empObj));
+        formData.append("file", $('#imageFile')[0].files[0]);
+        
+        // const reader = new FileReader();
+        // reader.readAsDataURL(empObj.imagePath);
+        // reader.addEventListener("load", function () {
+        //     // PREVIEWING THE IMAGE USING THE .result
+        //     imagePreview.src = reader.result;
+        // })
+        // var formData = new FormData(document.getElementById('saveEmployee'));
+        // formData.forEach((value, key) => {
+        //     empObj[key] = value;
+       // });
 
-        };
+        // var formData = new FormData();
+        // for (var key in empObj) {
+        //     formData.append(key, empObj[key]);
+        // }
+
+
         $.ajax({
+            
+          
             url: "/employee/create",
+            // type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            cache: false,
             type: "POST",
-            data: JSON.stringify(empObj),
-            contentType: "application/json;charset=utf-8",
+            // contentType: "application/json;charset=utf-8",
             // dataType: "json",
             success: function (data, textStatus, jqXHR) {
                 datatable.destroy();   
-
-                $('#exampleModal').modal('hide');
+                alert('Success!');
+                $('#addEmployee').modal('hide');
                 location.reload();
-                // console.log('Request successful!');
-                // console.log('Data:', data);
-                // console.log('Status:', textStatus);
-                // console.log('XHR object:', jqXHR);
             },
             error: function (errormessage) {
                 alert(errormessage.responseText);
@@ -317,15 +344,6 @@
             updatebyid = empId;
         debugger;
         
-        // var res = validate();
-        // if (res == false) {
-        //     return false;
-        // }
-
-        // Assuming you have an element with the ID 'updateExampleModal' to display the modal
-        
-
-        // Make an AJAX request to get the employee details
         $.ajax({
 
             url: "/employee/update/" + updatebyid, // Adjust the URL to your endpoint
@@ -383,7 +401,7 @@
     debugger;
         updatebyid = empId;
     $.ajax({
-            url: "/employee/update/" + updatebyid, // Adjust the URL to your endpoint
+        url: "/employee/update/" + updatebyid, // Adjust the URL to your endpoint
         type: "POST",
         dataType: "json",
         success: function (employee) {

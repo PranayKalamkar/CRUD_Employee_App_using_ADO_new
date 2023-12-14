@@ -3,6 +3,7 @@ using EmployeeApp.Models;
 using MySql.Data.MySqlClient;
 using Microsoft.AspNetCore.Hosting.Server;
 using System.Data;
+using System.Text.Json;
 
 namespace EmployeeApp.Controllers
 {
@@ -27,7 +28,7 @@ namespace EmployeeApp.Controllers
             {
                 command.CommandType = System.Data.CommandType.StoredProcedure;
                 connection.Open();
-                
+
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read()) 
                 {
@@ -119,8 +120,12 @@ namespace EmployeeApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult create([FromBody]EmployeeModel employee)
+        public IActionResult create( string model,IFormFile file)
         {
+            //AddEmployeeModel test = new();
+            
+            EmployeeModel employee = JsonSerializer.Deserialize<EmployeeModel>(model)!;
+            employee.imageFile = file;
 
             employee.imagePath = uploadImage(employee.imageFile);
 
