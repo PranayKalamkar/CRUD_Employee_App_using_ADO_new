@@ -1,0 +1,406 @@
+﻿@model IEnumerable<EmployeeApp.Models.EmployeeModel>
+@* @model EmployeeApp.Models.EmployeeModel; *@
+
+@{
+    ViewData["title"] = "Employee List";
+}
+
+<h2>@ViewData["title"]</h2>
+
+<p>
+    @* <a asp-action="create" class="btn btn-primary btn-sm">Add</a> *@
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal"  data-bs-target="#exampleModal">
+        Add
+    </button>
+</p>
+
+<!-- Button trigger modal -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @* <form asp-action="create" enctype="multipart/form-data"> *@
+
+                    <div class="mb-3">
+                        <label for="firstName" class="form-label">First Name : </label>
+                        <input id="firstName" type="text" name="firstName" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="lastName" class="form-label">Last Name : </label>
+                        <input id="lastName" type="text" name="lastName" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="contactNumber" class="form-label">Contact Number : </label>
+                        <input id="contactNumber" type="tel" name="contactNumber" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="emailId" class="form-label">Email Id : </label>
+                        <input id="emailId" type="email" name="emailId" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="age" class="form-label">Age : </label>
+                        <input id="age" type="number" name="age" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="imageFile" class="form-label">Image : </label>
+                        <input id="imageFile" name="imageFile" id="imageFile" type="file" class="form-control">
+                    </div>
+                    <label id="label"></label>
+                   @*  <button  class="btn btn-outline-primary mb-3">Submit</button> *@
+
+                @* </form> *@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" onclick="addemployee()" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="updateExampleModal" tabindex="-1" aria-labelledby="updateExampleModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Employee Update</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label for="firstName" class="form-label">First Name : </label>
+                        <input id="firstNameUpdate" type="text" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="lastName" class="form-label">Last Name : </label>
+                        <input id="lastNameUpdate" type="text" class="form-control" />
+
+                    <div class="mb-3">
+                        <label for="contactNumber" class="form-label">Contact Number : </label>
+                        <input id="contactNumberUpdate" type="tel" class="form-control"  />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="emailId" class="form-label">Email Id : </label>
+                        <input id="emailIdUpdate" type="email" class="form-control"  />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="age" class="form-label">Age : </label>
+                        <input id="ageUpdate" type="number" class="form-control"  />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="imageFile" class="form-label">Image : </label>
+                        <input id="imageFileUpdate" name="imageFile" type="file" class="form-control" value="EmployeeModel.imageFile" />
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" onclick="updateEmployeeData()" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+ 
+ <div class="modal fade" id="viewExampleModal" tabindex="-1" aria-labelledby="viewExampleModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Employee View</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label for="firstName" class="form-label">First Name : </label>
+                        <input id="firstNameView" type="text" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="lastName" class="form-label">Last Name : </label>
+                        <input id="lastNameView" type="text" class="form-control" />
+
+                    <div class="mb-3">
+                        <label for="contactNumber" class="form-label">Contact Number : </label>
+                        <input id="contactNumberView" type="tel" class="form-control"  />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="emailId" class="form-label">Email Id : </label>
+                        <input id="emailIdView" type="email" class="form-control"  />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="age" class="form-label">Age : </label>
+                        <input id="ageView" type="number" class="form-control"  />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="imageFile" class="form-label">Image : </label>
+                        <input id="imageFileView" name="imageFile" type="file" class="form-control" />
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<table class="table" id="myTable" style="width:100% !important">
+    <thead>
+        <tr>
+            @* <th>#</th> *@
+            <th>@Html.DisplayNameFor(model => model.Id)</th>
+            <th>@Html.DisplayNameFor(model => model.firstName)</th>
+            <th>@Html.DisplayNameFor(model => model.lastName)</th>
+            <th>@Html.DisplayNameFor(model => model.contactNumber)</th>
+            <th>@Html.DisplayNameFor(model => model.emailId)</th>
+            <th>@Html.DisplayNameFor(model => model.age)</th>
+            <th>@Html.DisplayNameFor(model => model.imageFile)</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @*  @{
+        int i = 1;
+        @foreach (var item in Model)
+        {
+        <tr>
+        <td>@i</td>
+        <td>@Html.DisplayFor(modelItem => item.Id)</td>
+        <td>@Html.DisplayFor(modelItem => item.firstName)</td>
+        <td>@Html.DisplayFor(modelItem => item.lastName)</td>
+        <td>@Html.DisplayFor(modelItem => item.contactNumber)</td>
+        <td>@Html.DisplayFor(modelItem => item.emailId)</td>
+        <td>@Html.DisplayFor(modelItem => item.age)</td>
+        <td><img src="~/image/@item.imagePath" width="30px"></td>
+        <td>
+        <div class="btn-group" aria-label="Basic example">
+        <a asp-action="update" asp-route-id="@item.Id" class="btn btn-primary btn-sm">Edit</a>
+        <a asp-action="delete" asp-route-id="@item.Id" class="btn btn-primary btn-sm">Delete</a>
+        </div>
+        </td>
+        </tr>
+        i++;
+        }
+        }
+        *@
+    </tbody>
+</table>
+
+<script>
+    var datatable;
+    $(document).ready(function () {
+     
+        getEmployeeList();
+    });
+    function getEmployeeList() {
+       $.ajax({
+            type: "Get",
+            url: "/Employee/EmployeeList",
+            success: function (data) {
+                debugger;
+                datatable = $('#myTable').DataTable({
+                    data: data,
+                    columns: [
+                        { data: 'id' },
+                        { data: 'firstName' },
+                        { data: 'lastName' },
+                        { data: 'contactNumber' },
+                        { data: 'emailId' },
+                        { data: 'age' },
+                        {
+                            data: 'imagePath', // Assume the data has a property named imageUrl that contains the image path
+                            mRender: function (data, type, row) {
+                                // Return an img tag with the image source and some attributes
+                                return '<img src="/image/' + data + '" width="50" height="50" alt="Image" />';
+                            }
+                        },
+                        {
+                            data: null,
+                            mRender: function (data, type, row) {
+
+                                // return '<button type="button"  class="btn btn-primary" href="/Employee/update/' + row.id + '>Edit</a> |  < a href = "/Employee/delete/' + row.id + '" class="btn btn-danger btn-sm" > Delete < /a>';
+
+                                return ` <button type="button" onclick="updateEmployee(` + row.id + `)" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateExampleModal">EDIT</button>| <button type="button" onclick="deleteEmployee(`+ row.id + `)" class="btn btn-primary" >DELETE</button>| <button type="button" onclick="viewEmployee(`+ row.id + `)" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewExampleModal">VIEW</button>`;
+                                // |
+                                // <button type="button" onclick="show(` + row.id + `)" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                //        show
+                                // </button>`
+
+                            }
+                        }
+                    ]
+                });
+                // Success = true;//doesn't go here
+            },
+            error: function (textStatus, errorThrown) {
+                Success = false; //doesn't go here
+            }
+
+        });
+    }
+    //Add Data Function
+    function addemployee() {
+        // var res = validate();
+        // if (res == false) {
+        //     return false;
+        // }
+        var empObj = {
+            firstName: $('#firstName').val(),
+            lastName: $('#lastName').val(),
+            contactNumber: $('#contactNumber').val(),
+            emailId: $('#emailId').val(),
+            age: $('#age').val(),
+
+        };
+        $.ajax({
+            url: "/employee/create",
+            type: "POST",
+            data: JSON.stringify(empObj),
+            contentType: "application/json;charset=utf-8",
+            // dataType: "json",
+            success: function (data, textStatus, jqXHR) {
+                datatable.destroy();   
+
+                $('#exampleModal').modal('hide');
+                location.reload();
+                // console.log('Request successful!');
+                // console.log('Data:', data);
+                // console.log('Status:', textStatus);
+                // console.log('XHR object:', jqXHR);
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            },
+        });
+    }
+
+    //function for deleting employee's record
+    function deleteEmployee(Id) {
+        var ans = confirm("Are you sure you want to delete this Record?");
+        if (ans) {
+            $.ajax({
+                url: "/Employee/delete?id=" + Id,
+                type: "POST",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                success: function (result) {
+                    datatable.destroy();
+                    getEmployeeList();
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }
+    }
+
+    var updatebyid;
+
+    //function for populating update data
+    function updateEmployee(empId) {
+            updatebyid = empId;
+        debugger;
+        
+        // var res = validate();
+        // if (res == false) {
+        //     return false;
+        // }
+
+        // Assuming you have an element with the ID 'updateExampleModal' to display the modal
+        
+
+        // Make an AJAX request to get the employee details
+        $.ajax({
+
+            url: "/employee/update/" + updatebyid, // Adjust the URL to your endpoint
+            type: "GET",
+            dataType: "json",
+            success: function (employee) {
+                debugger;
+                $('#updateExampleModal').modal('show');
+                // Populate the form with the received employee details
+                $('#firstNameUpdate').val(employee.firstName);
+                $('#lastNameUpdate').val(employee.lastName);
+                $('#contactNumberUpdate').val(employee.contactNumber);
+                $('#emailIdUpdate').val(employee.emailId);
+                $('#ageUpdate').val(employee.age);
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+
+
+    //function for updating employee's record
+    function updateEmployeeData() {
+        debugger;
+        var empObj = {
+
+            FirstName: $('#firstNameUpdate').val(),
+            lastName: $('#lastNameUpdate').val(),
+            contactNumber: $('#contactNumberUpdate').val(),
+            emailId: $('#emailIdUpdate').val(),
+            age: $('#ageUpdate').val(),
+        };
+        debugger;
+        $.ajax({
+            url: "/Employee/update1/?updatebyid=" + updatebyid,
+            data: JSON.stringify(empObj),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                console.log("Updated Successfully");
+                $('#updateExampleModal').modal('hide');
+                location.reload();
+                datatable.destroy();
+                getEmployeeList();
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+
+     function viewEmployee(empId) {
+    debugger;
+        updatebyid = empId;
+    $.ajax({
+            url: "/employee/update/" + updatebyid, // Adjust the URL to your endpoint
+        type: "POST",
+        dataType: "json",
+        success: function (employee) {
+            debugger;
+            // $('#viewExampleModal').modal('show');
+            // Populate the form with the received employee details
+            $('#firstNameView').val(employee.firstName);
+            $('#lastNameView').val(employee.lastName);
+            $('#contactNumberView').val(employee.contactNumber);
+            $('#emailIdView').val(employee.emailId);
+            $('#ageView').val(employee.age);
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+    
+    
+</script>

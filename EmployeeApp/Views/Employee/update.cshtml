@@ -1,0 +1,48 @@
+﻿@model EmployeeApp.Models.EmployeeModel;
+
+@{
+    ViewData["employee"] = "Employee Information Form";
+}
+
+<h2>@ViewData["employee"]</h2>
+
+
+<form asp-action="update" enctype="multipart/form-data">
+
+    <div class="mb-3">
+        <label asp-for="firstName" class="form-label">First Name : </label>
+        <input asp-for="firstName" type="text" class="form-control" value="@Model.firstName" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="lastName" class="form-label">Last Name : </label>
+        <input asp-for="lastName" type="text" class="form-control" value="@Model.lastName" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="contactNumber" class="form-label">Contact Number : </label>
+        <input asp-for="contactNumber" type="tel" class="form-control" value="@Model.contactNumber"/>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="emailId" class="form-label">Email Id : </label>
+        <input asp-for="emailId" type="email" class="form-control" value="@Model.emailId"/>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="age" class="form-label">Age : </label>
+        <input asp-for="age" type="number" class="form-control" value="@Model.age" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="imageFile" class="form-label">Image : </label>
+        <input asp-for="imageFile" name="imageFile" id="imageFile" type="file" class="form-control"  value="@Model.imageFile" />
+    </div>
+
+    <div>
+        <img src="~/image/@Model.imagePath" width="60px">
+    </div>
+
+    <button type="submit" class="btn btn-outline-primary mb-3">Submit</button>
+
+</form>

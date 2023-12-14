@@ -1,0 +1,58 @@
+﻿@model IEnumerable<EmployeeApp.Models.EmployeeModel>
+
+@{
+    ViewData["title"] = "Employee List";
+}
+
+<h2>@ViewData["title"]</h2>
+
+<p>
+    <a asp-action="create" class="btn btn-primary btn-sm">Add</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Id)</th>
+            <th>@Html.DisplayNameFor(model => model.firstName)</th>
+            <th>@Html.DisplayNameFor(model => model.lastName)</th>
+            <th>@Html.DisplayNameFor(model => model.contactNumber)</th>
+            <th>@Html.DisplayNameFor(model => model.emailId)</th>
+            <th>@Html.DisplayNameFor(model => model.age)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int i = 1;
+            if(Model != null)
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@i</td>
+                        @*<td>@Html.DisplayFor(modelItem => item.Id)</td>*@
+                        <td>@Html.DisplayFor(modelItem => item.firstName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.lastName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.contactNumber)</td>
+                        <td>@Html.DisplayFor(modelItem => item.emailId)</td>
+                        <td>@Html.DisplayFor(modelItem => item.age)</td>
+                        <td>
+                            <div class="btn-group" aria-label="Basic example">
+                                <a asp-action="update" asp-route-id="@item.Id" class="btn btn-primary btn-sm">Edit</a>
+                                <a asp-action="delete" asp-route-id="@item.Id" class="btn btn-primary btn-sm">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                    i++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7">No data available</td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
