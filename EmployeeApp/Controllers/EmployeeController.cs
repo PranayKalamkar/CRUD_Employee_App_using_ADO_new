@@ -158,59 +158,36 @@ namespace EmployeeApp.Controllers
             return Json("Index");
         }
 
-        public IActionResult update(int? id, EmployeeModel employeemodel)
+        public IActionResult populateUpdateData(int? emp_id)
         {
-            string oldimage = null;
+            EmployeeModel employeemodel = null;
 
-            //string query = "InsertUpdateEmployee";
-
-            //using (MySqlConnection connection = new MySqlConnection(connectionString))
-            //using (MySqlCommand command = new MySqlCommand(query, connection))
-            //{
-            //    command.CommandType = System.Data.CommandType.StoredProcedure;
-            //    command.Parameters.AddWithValue("@employee_in", id);
-            //    connection.Open();
-
-            //    MySqlDataReader reader = command.ExecuteReader();
-            //    while (reader.Read())
-            //    {
-            //        oldimage = reader["image"].ToString(); 
-            //    }
-            //}
-
-            //Console.WriteLine(oldimage);
-
-            //if(employeemodel.imageFile != null)
-            //{
-            //    string oldimagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "image", oldimage);
-            //    if (System.IO.File.Exists(oldimagePath))
-            //    {
-            //        System.IO.File.Delete(oldimage);
-            //    }
-            //}
-
-            const string queryString = "GetEmployeeImageById1";
+            const string storedprocedure = "GetEmployeeById";
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
-            using (MySqlCommand command = new MySqlCommand(queryString, connection))
             {
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@id_in", id);
-                connection.Open();
-
-                MySqlDataReader reader = command.ExecuteReader();
-                //DataSet reader = command.ExecuteReader();
-                while (reader.Read())
+                using (MySqlCommand command = new MySqlCommand(storedprocedure, connection))
                 {
-                   
+                    command.CommandType = CommandType.StoredProcedure;
 
-                    employeemodel.Id = (int)reader["id"];
-                    employeemodel.firstName = reader["first_name"].ToString();
-                    employeemodel.lastName = reader["last_name"].ToString();
-                    employeemodel.contactNumber = reader["contact_number"].ToString();
-                    employeemodel.emailId = reader["emailid"].ToString();
-                    employeemodel.age = reader["age"].ToString();
-                    employeemodel.imagePath = reader["image"].ToString();
+                    command.Parameters.AddWithValue("@id_in", emp_id);
+
+                    connection.Open();
+
+                    MySqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        employeemodel = new EmployeeModel();
+
+                        employeemodel.Id = (int)reader["id"];
+                        employeemodel.firstName = reader["first_name"].ToString();
+                        employeemodel.lastName = reader["last_name"].ToString();
+                        employeemodel.contactNumber = reader["contact_number"].ToString();
+                        employeemodel.emailId = reader["emailid"].ToString();
+                        employeemodel.age = reader["age"].ToString();
+                        employeemodel.imagePath = reader["image"].ToString();
+                    }
                 }
             }
 
@@ -218,8 +195,14 @@ namespace EmployeeApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult update1( [FromBody]EmployeeModel employee, int updatebyid)
+        public IActionResult update(int id, string model, IFormFile file)
         {
+            EmployeeModel employee = JsonSerializer.Deserialize<EmployeeModel>(model)!;
+
+            employee.Id = id;
+
+            employee.imageFile = file;
+
             employee.imagePath = uploadImage(employee.imageFile);
 
             try
@@ -232,7 +215,7 @@ namespace EmployeeApp.Controllers
                         command.CommandType = System.Data.CommandType.StoredProcedure;
 
                         connection.Open();
-                        command.Parameters.AddWithValue("employeeId", updatebyid);
+                        command.Parameters.AddWithValue("employeeId", employee.Id);
                         command.Parameters.AddWithValue("first_name", employee.firstName);
                         command.Parameters.AddWithValue("last_name", employee.lastName);
                         command.Parameters.AddWithValue("contact_number", employee.contactNumber);
@@ -253,20 +236,61 @@ namespace EmployeeApp.Controllers
 
         public IActionResult delete(int? id)
         {
-            string queryString = "DeleteEmployeeById";
+            string existingImage = null;
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
+                // string queryString = "SELECT profile_image FROM employee WHERE emp_id = @Id;";
+
+                string StoredProcedure = "GetEmployeeImageById1";
+
+                using (MySqlCommand command = new MySqlCommand(StoredProcedure, connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@id_in", id);
+
+                    connection.Open();
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            existingImage = reader["image"].ToString();
+                        }
+                    }
+                }
+            }
+
+            // Delete the old image file if it exists
+
+            if (!string.IsNullOrEmpty(existingImage))
+            {
+                string oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "image", existingImage);
+
+                if (System.IO.File.Exists(oldImagePath))
+                {
+                    System.IO.File.Delete(oldImagePath);
+                }
+            }
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                string queryString = "DeleteEmployeeById";
+
                 using (MySqlCommand command = new MySqlCommand(queryString, connection))
                 {
-                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.CommandType = CommandType.StoredProcedure;
+
                     command.Parameters.AddWithValue("@employeeId", id);
+
                     connection.Open();
-                     command.ExecuteNonQuery();
+
+                    command.ExecuteNonQuery();
                 }
             }
          
-            return Json("Successfully Deleted");
+            return Json("Index");
         }
 
         public string uploadImage(IFormFile imageFile)

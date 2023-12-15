@@ -15,7 +15,7 @@
 </p>
 
 <!-- Button trigger modal -->
-<!-- Modal -->
+<!-- Modal for Add Data -->
 <div class="modal fade" id="saveEmployee" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -28,32 +28,32 @@
 
                     <div class="mb-3">
                         <label for="firstName" class="form-label">First Name : </label>
-                        <input id="firstName" type="text" name="firstName" class="form-control" />
+                        <input id="firstName" type="text" name="firstName" class="form-control" autocomplete="off" />
                     </div>
 
                     <div class="mb-3">
                         <label for="lastName" class="form-label">Last Name : </label>
-                        <input id="lastName" type="text" name="lastName" class="form-control" />
+                        <input id="lastName" type="text" name="lastName" class="form-control" autocomplete="off" />
                     </div>
 
                     <div class="mb-3">
                         <label for="contactNumber" class="form-label">Contact Number : </label>
-                        <input id="contactNumber" type="tel" name="contactNumber" class="form-control" />
+                        <input id="contactNumber" type="tel" name="contactNumber" class="form-control" autocomplete="off" />
                     </div>
 
                     <div class="mb-3">
                         <label for="emailId" class="form-label">Email Id : </label>
-                        <input id="emailId" type="email" name="emailId" class="form-control" />
+                        <input id="emailId" type="email" name="emailId" class="form-control" autocomplete="off" />
                     </div>
 
                     <div class="mb-3">
                         <label for="age" class="form-label">Age : </label>
-                        <input id="age" type="number" name="age" class="form-control" />
+                        <input id="age" type="number" name="age" class="form-control" autocomplete="off" />
                     </div>
 
                     <div class="mb-3">
                         <label for="imageFile" class="form-label">Image : </label>
-                        <input id="imageFile" name="imageFile"  type="file" class="form-control">
+                        <input id="imageFile" name="imageFile" type="file" class="form-control" autocomplete="off" />
                     </div>
                     
                    @*  <button  class="btn btn-outline-primary mb-3">Submit</button> *@
@@ -69,43 +69,55 @@
 </div>
 
 
-<div class="modal fade" id="updateExampleModal" tabindex="-1" aria-labelledby="updateExampleModal" aria-hidden="true">
+<!-- Modal for Update Data -->
+<div class="modal fade" id="updateEmployeeModal" tabindex="-1" aria-labelledby="updateEmployeeModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="updateExampleModalLabel">Employee Update</h5>
+                <h5 class="modal-title" id="updateEmployeeModalLabel">Employee Update</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
 
+                <form>
+                    <input id="IdUpdate" name="Id" type="number" class="form-control" autocomplete="off" hidden/>
+
                     <div class="mb-3">
                         <label for="firstName" class="form-label">First Name : </label>
-                        <input id="firstNameUpdate" type="text" class="form-control" />
+                        <input id="firstNameUpdate" name="firstName" type="text" class="form-control" autocomplete="off" />
                     </div>
 
                     <div class="mb-3">
                         <label for="lastName" class="form-label">Last Name : </label>
-                        <input id="lastNameUpdate" type="text" class="form-control" />
+                        <input id="lastNameUpdate" name="lastName" type="text" class="form-control" autocomplete="off" />
+                    </div>
 
                     <div class="mb-3">
                         <label for="contactNumber" class="form-label">Contact Number : </label>
-                        <input id="contactNumberUpdate" type="tel" class="form-control"  />
+                        <input id="contactNumberUpdate" name="contactNumber" type="tel" class="form-control" autocomplete="off" />
                     </div>
 
                     <div class="mb-3">
                         <label for="emailId" class="form-label">Email Id : </label>
-                        <input id="emailIdUpdate" type="email" class="form-control"  />
+                        <input id="emailIdUpdate" name="emailId" type="email" class="form-control" autocomplete="off" />
                     </div>
 
                     <div class="mb-3">
-                        <label for="age" class="form-label">Age : </label>
-                        <input id="ageUpdate" type="number" class="form-control"  />
+                        <label for="age" class="form-label">Age: </label>
+                        <input id="ageUpdate" name="age" type="number" class="form-control" autocomplete="off" />
                     </div>
 
-                    <div class="mb-3">
+                    <div class="mb-3" >
                         <label for="imageFile" class="form-label">Image : </label>
-                        <input id="imageFileUpdate" name="imageFile" type="file" class="form-control" />
+                        <input id="imageFileUpdate" name="imageFile" type="file" class="form-control" onchange="previewImage(this)" autocomplete="off" />
+                        @* <img id="imagePreviewUpdate" src="#" alt="Image Preview" style="max-width: 100%; max-height: 150px; margin-top: 10px; display: none;"> *@
                     </div>
+                    <div class="mb-3" style="display: flex; flex-direction: column;">
+                        
+                        <img id="imagePreviewUpdate" src="#" alt="Image Preview" style="max-width: 50%; max-height: 150px; margin-top: 10px; display: none;">
+                    </div>
+                </form>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -117,6 +129,7 @@
 </div>
 
  
+<!-- Modal for View Data -->
  <div class="modal fade" id="viewExampleModal" tabindex="-1" aria-labelledby="viewExampleModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -125,42 +138,50 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-
+                    <form>
+                    <input id="IdView" name="Id" type="number" class="form-control" autocomplete="off" hidden />
                     <div class="mb-3">
                         <label for="firstName" class="form-label">First Name : </label>
-                        <input id="firstNameView" type="text" class="form-control" autocomplete="off"/>
+                        <input id="firstNameView" name="firstName" type="text" class="form-control" autocomplete="off" />
                     </div>
 
                     <div class="mb-3">
                         <label for="lastName" class="form-label">Last Name : </label>
-                        <input id="lastNameView" type="text" class="form-control" />
+                        <input id="lastNameView" name="lastName" type="text" class="form-control" autocomplete="off" />
+                    </div>
 
                     <div class="mb-3">
                         <label for="contactNumber" class="form-label">Contact Number : </label>
-                        <input id="contactNumberView" type="tel" class="form-control"  />
+                        <input id="contactNumberView" name="contactNumber" type="tel" class="form-control" autocomplete="off" />
                     </div>
 
                     <div class="mb-3">
                         <label for="emailId" class="form-label">Email Id : </label>
-                        <input id="emailIdView" type="email" class="form-control"  />
+                        <input id="emailIdView" name="emailId" type="email" class="form-control" autocomplete="off" />
                     </div>
 
                     <div class="mb-3">
                         <label for="age" class="form-label">Age : </label>
-                        <input id="ageView" type="number" class="form-control"  />
+                        <input id="ageView" name="age" type="number" class="form-control" autocomplete="off" />
                     </div>
 
                     <div class="mb-3">
-                        <label for="imageFile" class="form-label">Image : </label>
-                        <input id="imageFileView" name="imageFile" type="file" class="form-control" />
+                        <label for="imageFile" class="form-label">Image : </label><br />
+                        <input id="imageFileView" name="imageFile" type="file" class="form-control" onchange="previewImage(this)" autocomplete="off" hidden/>
+                        @* <img id="imagePreviewUpdate" src="#" alt="Image Preview" style="max-width: 100%; max-height: 150px; margin-top: 10px; display: none;"> *@
                     </div>
+                    <div class="mb-3" style="display: flex; flex-direction: column;">
+
+                        <img id="imagePreviewView" src="#" alt="Image Preview" style="max-width: 50%; max-height: 150px; margin-top: 10px; display: none;">
+                    </div>
+                    </form>
             </div>
         </div>
     </div>
 </div>
 </div>
 
-<table class="table" id="myTable" style="width:100% !important">
+<table  class=" table table-striped table-bordered"  id="myTable" style="width:100% !important">
     <thead>
         <tr>
             @* <th>#</th> *@
@@ -229,18 +250,18 @@
                         { data: 'age' },
                         {
                             data: 'imagePath', // Assume the data has a property named imageUrl that contains the image path
-                            mRender: function (data, type, row) {
+                            render: function (data, type, row) {
                                 // Return an img tag with the image source and some attributes
                                 return '<img src="/image/' + data + '" width="50" height="50" alt="Image" />';
                             }
                         },
                         {
                             data: null,
-                            mRender: function (data, type, row) {
+                            render: function (data, type, row) {
 
                                 // return '<button type="button"  class="btn btn-primary" href="/Employee/update/' + row.id + '>Edit</a> |  < a href = "/Employee/delete/' + row.id + '" class="btn btn-danger btn-sm" > Delete < /a>';
 
-                                return ` <button type="button" onclick="updateEmployee(` + row.id + `)" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateExampleModal">EDIT</button>| <button type="button" onclick="deleteEmployee(`+ row.id + `)" class="btn btn-primary" >DELETE</button>| <button type="button" onclick="viewEmployee(`+ row.id + `)" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewExampleModal">VIEW</button>`;
+                                return '<button type="button" onclick="populateFormData(' + row.Id + ')" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateEmployeeModal">EDIT</button>| <button type="button" onclick="deleteEmployee(' + row.Id + ')" class="btn btn-primary" >DELETE</button>| <button type="button" onclick="viewEmployee(' + row.Id + ')" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewExampleModal">VIEW</button>';
 
                             }
                         },
@@ -259,9 +280,6 @@
     //Add Data Function
     function addemployee() {
         debugger;
-
-       
-        
         var empObj = {
             firstName: $('#firstName').val(),
             lastName: $('#lastName').val(),
@@ -275,27 +293,8 @@
         var formData=new FormData();
         formData.append("model", JSON.stringify(empObj));
         formData.append("file", $('#imageFile')[0].files[0]);
-        
-        // const reader = new FileReader();
-        // reader.readAsDataURL(empObj.imagePath);
-        // reader.addEventListener("load", function () {
-        //     // PREVIEWING THE IMAGE USING THE .result
-        //     imagePreview.src = reader.result;
-        // })
-        // var formData = new FormData(document.getElementById('saveEmployee'));
-        // formData.forEach((value, key) => {
-        //     empObj[key] = value;
-       // });
 
-        // var formData = new FormData();
-        // for (var key in empObj) {
-        //     formData.append(key, empObj[key]);
-        // }
-
-
-        $.ajax({
-            
-          
+        $.ajax({        
             url: "/employee/create",
             // type: "POST",
             data: formData,
@@ -317,47 +316,49 @@
         });
     }
 
-    //function for deleting employee's record
-    function deleteEmployee(Id) {
-        var ans = confirm("Are you sure you want to delete this Record?");
-        if (ans) {
-            $.ajax({
-                url: "/Employee/delete?id=" + Id,
-                type: "POST",
-                contentType: "application/json;charset=UTF-8",
-                dataType: "json",
-                success: function (result) {
-                    datatable.destroy();
-                    getEmployeeList();
-                },
-                error: function (errormessage) {
-                    alert(errormessage.responseText);
-                }
-            });
+
+    function previewImage(input) {
+        var file = input.files[0];
+
+        if (file) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#imagePreviewUpdate').attr('src', e.target.result).show();
+            };
+
+            reader.readAsDataURL(file);
+        } else {
+            // Clear the image preview if no file is selected
+            $('#imagePreviewUpdate').attr('src', '').hide();
         }
     }
 
-    var updatebyid;
+
+    // var updatebyid;
 
     //function for populating update data
-    function updateEmployee(empId) {
-            updatebyid = empId;
+    function populateFormData(empId) {
         debugger;
-        
         $.ajax({
-
-            url: "/employee/update/" + updatebyid, // Adjust the URL to your endpoint
             type: "GET",
-            dataType: "json",
+            url: "/Employee/populateUpdateData?emp_id=" + empId, // Adjust the URL to your endpoint
+            // dataType: "json",
             success: function (employee) {
                 debugger;
-                $('#updateExampleModal').modal('show');
+
                 // Populate the form with the received employee details
+                $('#IdUpdate').val(employee.Id); // error
                 $('#firstNameUpdate').val(employee.firstName);
                 $('#lastNameUpdate').val(employee.lastName);
                 $('#contactNumberUpdate').val(employee.contactNumber);
                 $('#emailIdUpdate').val(employee.emailId);
                 $('#ageUpdate').val(employee.age);
+
+                var imagePreview = "/image/" + employee.imagePath;
+                    // ? '/image/' + employee.profileImage
+                    // : 'Upload Image';
+                $('#imagePreviewUpdate').attr('src', imagePreview).show();
             },
             error: function (errormessage) {
                 alert(errormessage.responseText);
@@ -365,31 +366,59 @@
         });
     }
 
-
     //function for updating employee's record
     function updateEmployeeData() {
         debugger;
-        var empObj = {
 
-            FirstName: $('#firstNameUpdate').val(),
+        var employeeID ={
+            id: $('#IdUpdate').val(),
+        }
+
+        debugger;
+
+        var employeeData = {
+            // Id: $('#IdUpdate').val(),
+            firstName: $('#firstNameUpdate').val(),
             lastName: $('#lastNameUpdate').val(),
             contactNumber: $('#contactNumberUpdate').val(),
             emailId: $('#emailIdUpdate').val(),
             age: $('#ageUpdate').val(),
         };
+
         debugger;
+
+        var formData = new FormData();
+        formData.append("Id", employeeID.id);
+        formData.append("model", JSON.stringify(employeeData));
+        formData.append("file", $("#imageFileUpdate")[0].files[0]);
+
+        debugger;
+
+        // debugger;
         $.ajax({
-            url: "/Employee/update1/?updatebyid=" + updatebyid,
-            data: JSON.stringify(empObj),
             type: "POST",
-            contentType: "application/json;charset=utf-8",
-            dataType: "json",
-            success: function (result) {
-                console.log("Updated Successfully");
-                $('#updateExampleModal').modal('hide');
-                location.reload();
-                datatable.destroy();
-                getEmployeeList();
+            url: "/Employee/update",
+            data: formData,
+            contentType: false,
+            processData: false,
+            cache: false,
+            // contentType: "application/json;charset=utf-8",
+            // dataType: "json",
+            success: function (data) {
+                // console.log("Updated Successfully");
+                // $('#updateExampleModal').modal('hide');
+                // location.reload();
+                // datatable.destroy();
+                // getEmployeeList();
+                if (data === "Index") {
+                    alert("Employee updated successfully!");
+                    $('#updateExampleModal').modal('hide');
+                    location.reload();
+                } else {
+                    // Handle errors or show appropriate messages
+                    console.error("Error updating employee:", data);
+                    alert("Failed to update employee. Please check the console for details.");
+                }
             },
             error: function (errormessage) {
                 alert(errormessage.responseText);
@@ -397,28 +426,53 @@
         });
     }
 
-     function viewEmployee(empId) {
-    debugger;
-        updatebyid = empId;
-    $.ajax({
-        url: "/employee/update/" + updatebyid, // Adjust the URL to your endpoint
-        type: "POST",
-        dataType: "json",
-        success: function (employee) {
-            debugger;
-            // $('#viewExampleModal').modal('show');
-            // Populate the form with the received employee details
-            $('#firstNameView').val(employee.firstName);
-            $('#lastNameView').val(employee.lastName);
-            $('#contactNumberView').val(employee.contactNumber);
-            $('#emailIdView').val(employee.emailId);
-            $('#ageView').val(employee.age);
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
+    function viewEmployee(empId) {
+        debugger;
+        $.ajax({
+            type: "GET",
+            url: "/Employee/populateUpdateData?emp_id=" + empId, // Adjust the URL to your endpoint
+            // dataType: "json",
+            success: function (employee) {
+                debugger;
+
+                // Populate the form with the received employee details
+                $('#IdView').val(employee.Id); // error
+                $('#firstNameView').val(employee.firstName);
+                $('#lastNameView').val(employee.lastName);
+                $('#contactNumberView').val(employee.contactNumber);
+                $('#emailIdView').val(employee.emailId);
+                $('#ageView').val(employee.age);
+
+                var imagePreview = "/image/" + employee.imagePath;
+                // ? '/image/' + employee.profileImage
+                // : 'Upload Image';
+                $('#imagePreviewView').attr('src', imagePreview).show();
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+   
+    //function for deleting employee's record
+    function deleteEmployee(Id) {
+        debugger;
+        var ans = confirm("Are you sure you want to delete this Record?");
+        if (ans) {
+       
+            $.ajax({
+                type: "GET",
+                url: "/Employee/delete/" + Id,             
+                success: function (result) {
+                   alert("Employee deleted successfully!");
+                   location.reload();
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                    console.error("Error deleting employee:", errormessage);
+                }
+            });
         }
-    });
-}
-    
+    }
     
 </script>
