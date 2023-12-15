@@ -1,0 +1,106 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteEmployeeById`(
+    IN employeeId INT
+)
+BEGIN
+    DELETE FROM employee
+    WHERE id = employeeId;
+END
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllEmployees`()
+BEGIN
+    SELECT * FROM employee;
+END
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetEmployeeById`(IN id_in INT)
+BEGIN
+    SELECT * FROM employee WHERE id = id_in;
+END
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetEmployeeImageById1`(IN id_in INT)
+BEGIN
+    SELECT image FROM employee WHERE id = id_in;
+END
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertEmployee`(
+	IN firstName varchar(255),
+    IN lastName varchar(255),
+    IN contactNumber varchar(10),
+    IN emailId varchar(255),
+    IN age int(3),
+    IN imagePath varchar(255)
+)
+BEGIN
+
+	INSERT INTO employee(first_name, last_name, contact_number, emailid, age, image)
+    VALUES(firstName,lastName,contactNumber,emailId,age,imagePath);
+END
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertUpdateEmployee`(
+in employee_in int,
+	IN firstName varchar(255),
+    IN lastName varchar(255),
+    IN contactNumber varchar(10),
+    IN emailId varchar(255),
+    IN age int(3),
+    IN imagePath varchar(255),
+    out message varchar(45)
+)
+BEGIN
+if( employee_in=0) then
+	if not exists ( select * from employee where id =employee_in) then
+		INSERT INTO employee(first_name, last_name, contact_number, emailid, age, image)
+		VALUES(firstName,lastName,contactNumber,emailId,age,imagePath);
+        set message ="employe inserted";
+        else
+        set message ="employe already exists";
+	end if;
+else
+		UPDATE `employee`
+		SET
+		`first_name` = first_name,
+		`last_name` = last_name,
+		`contact_number` = contact_number,
+		`emailid` = emailid,
+		`age` = age,
+		`image` =image
+		WHERE `id` = employee_in;
+		set message ="employe updated";
+    end if;
+    
+END
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SearchEmployee`(keyword VARCHAR(255))
+BEGIN
+    SELECT * FROM employee 
+    WHERE id LIKE CONCAT('%', keyword, '%') OR first_name LIKE CONCAT('%', keyword, '%');
+END
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateEmployeeById`(
+    IN employeeId INT,
+    IN first_name VARCHAR(255),
+    IN last_name VARCHAR(255),
+    IN contact_number VARCHAR(20),
+    IN emailid VARCHAR(255),
+    IN age varchar(10),
+    IN imagePath VARCHAR(255)
+)
+BEGIN
+    UPDATE employee
+    SET
+        first_name = first_name,
+        last_name = last_name,
+        contact_number = contact_number,
+        emailid = emailid,
+        age = age,
+        image = imagePath
+    WHERE id = employeeId;
+END
+
+
+'id', 'int', 'NO', 'PRI', NULL, 'auto_increment'
+'first_name', 'varchar(30)', 'YES', '', NULL, ''
+'last_name', 'varchar(30)', 'YES', '', NULL, ''
+'contact_number', 'varchar(15)', 'YES', '', NULL, ''
+'emailid', 'varchar(45)', 'YES', '', NULL, ''
+'age', 'varchar(3)', 'YES', '', NULL, ''
+'image', 'varchar(600)', 'YES', '', NULL, ''
