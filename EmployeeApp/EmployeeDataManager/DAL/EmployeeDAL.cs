@@ -23,13 +23,13 @@ namespace EmployeeApp.EmployeeDataManager.DAL
             _dBManager.InitDbCommand("GetAllEmployees");
 
             DataSet ds =_dBManager.ExecuteDataSet();
-            foreach (var item in ds.Tables[0].Rows)
+            foreach (DataRow item in ds.Tables[0].Rows)
             {
                 EmployeeModel employeemodel = new EmployeeModel();
 
                 //employeemodel.Id = (int)reader["id"];
                 //employeemodel.Id = CommonConversion.ConvertDBNullToInt(item["id"]);
-                employeemodel.firstName = CommonConversion.ConvertDBNullToString(item["first_name"]);
+                employeemodel.firstName = CommonConversion.ConvertDBNullToString(item["id"]).ToString();
                 //employeemodel.lastName = reader["last_name"].ToString();
                 //employeemodel.contactNumber = reader["contact_number"].ToString();
                 //employeemodel.emailId = reader["emailid"].ToString();
