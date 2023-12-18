@@ -20,3 +20,10 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.rounded-image {
+    border-radius: 50%;
+    overflow: hidden; /* Ensure the image stays within the rounded borders */
+}
+
+

@@ -4,6 +4,7 @@ using MySql.Data.MySqlClient;
 using Microsoft.AspNetCore.Hosting.Server;
 using System.Data;
 using System.Text.Json;
+using EmployeeApp.EmployeeBussinessManager.IBAL;
 
 namespace EmployeeApp.Controllers
 {
@@ -11,11 +12,12 @@ namespace EmployeeApp.Controllers
     {
         IConfiguration _configuration;
         string connectionString;
-
-        public EmployeeController(IConfiguration configuration)
+        IEmployeeBAL _IEmployeeBAL;
+        public EmployeeController(IConfiguration configuration,IEmployeeBAL employeeBAL)
         {
             _configuration = configuration;
             connectionString = configuration.GetConnectionString("DefaultConnection");
+            _IEmployeeBAL = employeeBAL;
         }
 
         public IActionResult Index()
@@ -194,7 +196,7 @@ namespace EmployeeApp.Controllers
             return Json(employeemodel);
         }
 
-        [HttpPost]
+        [HttpPost, RequestSizeLimit(25 * 1000 * 1024)]
         public IActionResult update(int id, string model, IFormFile file)
         {
             EmployeeModel employee = JsonSerializer.Deserialize<EmployeeModel>(model)!;
@@ -203,10 +205,56 @@ namespace EmployeeApp.Controllers
 
             employee.imageFile = file;
 
-            employee.imagePath = uploadImage(employee.imageFile);
+            // employee.imagePath = uploadImage(employee.imageFile);
 
             try
             {
+                // Get existing profile image from the database
+                string existingImage = null;
+
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    string StoredProcedure = "GetEmployeeImageById1";
+
+                    using (MySqlCommand command = new MySqlCommand(StoredProcedure, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@id_in", employee.Id);
+
+                        connection.Open();
+
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                existingImage = reader["image"].ToString();
+                            }
+                        }
+                    }
+                }
+
+                // If a new image file is uploaded, update the profile image
+                if (employee.imageFile != null)
+                {
+                    // Delete the old image file if it exists
+                    if (!string.IsNullOrEmpty(existingImage))
+                    {
+                        string oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "image", existingImage);
+
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+
+                    employee.imagePath = uploadImage(employee.imageFile);
+                }
+                else
+                {
+                    // If no new image is provided, use the existing image
+                    employee.imagePath = existingImage;
+                }
+
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     string queryString = "UpdateEmployeeById";
@@ -337,6 +385,9 @@ namespace EmployeeApp.Controllers
             }
         }
 
-        
+        public IActionResult test()
+        {
+            return Json(_IEmployeeBAL.GetEmployeeList());
+        }
     }
 }

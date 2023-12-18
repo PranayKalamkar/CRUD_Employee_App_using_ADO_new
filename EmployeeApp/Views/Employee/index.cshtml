@@ -4,65 +4,73 @@
 @{
     ViewData["title"] = "Employee List";
 }
+<div class="col-xl-12" style=" display: flex; justify-content: space-between;">
 
-<h2>@ViewData["title"]</h2>
+    <h2>@ViewData["title"]</h2>
 
-<p>
-    @* <a asp-action="create" class="btn btn-primary btn-sm">Add</a> *@
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal"  data-bs-target="#saveEmployee">
-        Add
-    </button>
-</p>
+    <p>
+        @* <a asp-action="create" class="btn btn-primary btn-sm">Add</a> *@
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal"  data-bs-target="#addEmployee">
+            Add
+        </button>
+    </p>
+</div>
 
 <!-- Button trigger modal -->
 <!-- Modal for Add Data -->
-<div class="modal fade" id="saveEmployee" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addEmployee" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="saveEmployeeLabel">Add Details</h5>
+                <h5 class="modal-title" id="addEmployeeLabel">Add Details</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                @* <form asp-action="create" enctype="multipart/form-data"> *@
+                <form action="#" name="add">
 
                     <div class="mb-3">
                         <label for="firstName" class="form-label">First Name : </label>
-                        <input id="firstName" type="text" name="firstName" class="form-control" autocomplete="off" />
+                        <input id="firstName" type="text" name="firstName" class="form-control" autocomplete="off" maxlength="30" required />
+                        
                     </div>
 
                     <div class="mb-3">
                         <label for="lastName" class="form-label">Last Name : </label>
-                        <input id="lastName" type="text" name="lastName" class="form-control" autocomplete="off" />
+                        <input id="lastName" type="text" name="lastName" class="form-control" autocomplete="off" maxlength="30" required />
+                        
                     </div>
 
                     <div class="mb-3">
                         <label for="contactNumber" class="form-label">Contact Number : </label>
-                        <input id="contactNumber" type="tel" name="contactNumber" class="form-control" autocomplete="off" />
+                        <input id="contactNumber" type="tel" name="contactNumber" class="form-control" autocomplete="off" maxlength="10" required pattern="\d{10}" />
+                        
                     </div>
 
                     <div class="mb-3">
                         <label for="emailId" class="form-label">Email Id : </label>
-                        <input id="emailId" type="email" name="emailId" class="form-control" autocomplete="off" />
+                        <input id="emailId" type="email" name="emailId" class="form-control" autocomplete="off" maxlength="50" required />
+                        
                     </div>
 
                     <div class="mb-3">
                         <label for="age" class="form-label">Age : </label>
-                        <input id="age" type="number" name="age" class="form-control" autocomplete="off" />
+                        <input id="age" type="number" name="age" class="form-control" autocomplete="off" maxlength="3" required />
+                        
                     </div>
 
                     <div class="mb-3">
                         <label for="imageFile" class="form-label">Image : </label>
-                        <input id="imageFile" name="imageFile" type="file" class="form-control" autocomplete="off" />
+                        <input id="imageFile" name="imageFile" type="file" class="form-control" autocomplete="off" required />
+                        
                     </div>
                     
                    @*  <button  class="btn btn-outline-primary mb-3">Submit</button> *@
 
-                @* </form> *@
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" onclick="addemployee()" class="btn btn-primary">Save changes</button>
+                <button type="submit" onclick="addemployee()" action="#" class="btn btn-success">Save changes</button>
             </div>
         </div>
     </div>
@@ -84,27 +92,27 @@
 
                     <div class="mb-3">
                         <label for="firstName" class="form-label">First Name : </label>
-                        <input id="firstNameUpdate" name="firstName" type="text" class="form-control" autocomplete="off" />
+                        <input id="firstNameUpdate" name="firstName" type="text" class="form-control" autocomplete="off"  />
                     </div>
 
                     <div class="mb-3">
                         <label for="lastName" class="form-label">Last Name : </label>
-                        <input id="lastNameUpdate" name="lastName" type="text" class="form-control" autocomplete="off" />
+                        <input id="lastNameUpdate" name="lastName" type="text" class="form-control" autocomplete="off"  />
                     </div>
 
                     <div class="mb-3">
                         <label for="contactNumber" class="form-label">Contact Number : </label>
-                        <input id="contactNumberUpdate" name="contactNumber" type="tel" class="form-control" autocomplete="off" />
+                        <input id="contactNumberUpdate" name="contactNumber" type="tel" class="form-control" autocomplete="off"  />
                     </div>
 
                     <div class="mb-3">
                         <label for="emailId" class="form-label">Email Id : </label>
-                        <input id="emailIdUpdate" name="emailId" type="email" class="form-control" autocomplete="off" />
+                        <input id="emailIdUpdate" name="emailId" type="email" class="form-control" autocomplete="off"  />
                     </div>
 
                     <div class="mb-3">
                         <label for="age" class="form-label">Age: </label>
-                        <input id="ageUpdate" name="age" type="number" class="form-control" autocomplete="off" />
+                        <input id="ageUpdate" name="age" type="number" class="form-control" autocomplete="off"  />
                     </div>
 
                     <div class="mb-3" >
@@ -114,19 +122,19 @@
                     </div>
                     <div class="mb-3" style="display: flex; flex-direction: column;">
                         
-                        <img id="imagePreviewUpdate" src="#" alt="Image Preview" style="max-width: 50%; max-height: 150px; margin-top: 10px; display: none;">
+                        <img id="imagePreviewUpdate" src="#" alt="Image Preview" style="max-width: 30%; max-height: 150px; margin-top: 10px; display: none;">
                     </div>
                 </form>
 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" onclick="updateEmployeeData()" class="btn btn-primary">Save changes</button>
+                <button type="button" onclick="updateEmployeeData()" class="btn btn-success">Save changes</button>
             </div>
         </div>
     </div>
 </div>
-</div>
+
 
  
 <!-- Modal for View Data -->
@@ -172,17 +180,17 @@
                     </div>
                     <div class="mb-3" style="display: flex; flex-direction: column;">
 
-                        <img id="imagePreviewView" src="#" alt="Image Preview" style="max-width: 50%; max-height: 150px; margin-top: 10px; display: none;">
+                        <img id="imagePreviewView" src="#" alt="Image Preview" style="max-width: 30%; max-height: 150px; margin-top: 10px; display: none;">
                     </div>
                     </form>
             </div>
         </div>
     </div>
 </div>
-</div>
 
-<table  class=" table table-striped table-bordered"  id="myTable" style="width:100% !important">
-    <thead>
+
+<table  class="table table-striped"  id="myTable" style="width=100% !important" >
+    <thead class="table-dark">
         <tr>
             @* <th>#</th> *@
             <th>@Html.DisplayNameFor(model => model.Id)</th>
@@ -252,7 +260,7 @@
                             data: 'imagePath', // Assume the data has a property named imageUrl that contains the image path
                             render: function (data, type, row) {
                                 // Return an img tag with the image source and some attributes
-                                return '<img src="/image/' + data + '" width="50" height="50" alt="Image" />';
+                                return '<img src="/image/' + data + '" class="rounded-image" width="50" height="50" alt="Image" />';
                             }
                         },
                         {
@@ -261,7 +269,7 @@
 
                                 // return '<button type="button"  class="btn btn-primary" href="/Employee/update/' + row.id + '>Edit</a> |  < a href = "/Employee/delete/' + row.id + '" class="btn btn-danger btn-sm" > Delete < /a>';
 
-                                return '<button type="button" onclick="populateFormData(' + row.Id + ')" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateEmployeeModal">EDIT</button>| <button type="button" onclick="deleteEmployee(' + row.Id + ')" class="btn btn-primary" >DELETE</button>| <button type="button" onclick="viewEmployee(' + row.Id + ')" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewExampleModal">VIEW</button>';
+                                return '<button type="button" onclick="populateFormData(' + row.Id + ')" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateEmployeeModal">EDIT</button>| <button type="button" onclick="deleteEmployee(' + row.Id + ')" class="btn btn-danger" >DELETE</button>| <button type="button" onclick="viewEmployee(' + row.Id + ')" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#viewExampleModal">VIEW</button>';
 
                             }
                         },
@@ -305,10 +313,17 @@
             // contentType: "application/json;charset=utf-8",
             // dataType: "json",
             success: function (data, textStatus, jqXHR) {
-                datatable.destroy();   
-                alert('Success!');
+                // datatable.destroy();   
+                // alert('Success!');
                 $('#addEmployee').modal('hide');
-                location.reload();
+                // location.reload();
+                Swal.fire({
+                    title: "Employee Succesfully Added!",
+                    text: "close",
+                    icon: "success"
+                });
+                datatable.destroy();
+                getEmployeeList();
             },
             error: function (errormessage) {
                 alert(errormessage.responseText);
@@ -411,17 +426,35 @@
                 // datatable.destroy();
                 // getEmployeeList();
                 if (data === "Index") {
-                    alert("Employee updated successfully!");
+                    Swal.fire({
+                        title: "Employee updated successfully!",
+                        text: "close",
+                        icon: "success"
+                    });
+                    // alert("Employee updated successfully!");
                     $('#updateExampleModal').modal('hide');
-                    location.reload();
+                    datatable.destroy();
+                    getEmployeeList();
+                    // location.reload();
                 } else {
                     // Handle errors or show appropriate messages
-                    console.error("Error updating employee:", data);
-                    alert("Failed to update employee. Please check the console for details.");
+                    // console.error("Error updating employee:", data);
+                    // alert("Failed to update employee. Please check the console for details.");
+                    Swal.fire({
+                        title: "Error updating employee!",
+                        text: "close",
+                        icon: "Error"
+                    });
+
                 }
             },
             error: function (errormessage) {
-                alert(errormessage.responseText);
+                // alert(errormessage.responseText);
+                Swal.fire({
+                    title: "Error updating employee!",
+                    text: "close",
+                    icon: "Error"
+                });
             }
         });
     }
@@ -457,22 +490,112 @@
     //function for deleting employee's record
     function deleteEmployee(Id) {
         debugger;
-        var ans = confirm("Are you sure you want to delete this Record?");
-        if (ans) {
-       
-            $.ajax({
-                type: "GET",
-                url: "/Employee/delete/" + Id,             
-                success: function (result) {
-                   alert("Employee deleted successfully!");
-                   location.reload();
-                },
-                error: function (errormessage) {
-                    alert(errormessage.responseText);
-                    console.error("Error deleting employee:", errormessage);
-                }
-            });
-        }
+        // var ans = confirm("Are you sure you want to delete this Record?");
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+
+                $.ajax({
+                    type: "GET",
+                    url: "/Employee/delete/" + Id,
+                    success: function (result) {
+                        // alert("Employee deleted successfully!");
+                        datatable.destroy();
+                        getEmployeeList();
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Your file has been deleted.",
+                            icon: "success"
+                        });
+                        // location.reload();
+                    },
+                    error: function (errormessage) {
+                        // alert(errormessage.responseText);
+                        // console.error("Error deleting employee:", errormessage);
+                        Swal.fire({
+                            title: "Error Delete employee!",
+                            text: "close",
+                            icon: "Error"
+                        });
+
+                    }
+                });
+             
+            }
+        });
     }
+
+    $(function () {
+        // Initialize form validation on the registration form.
+        // It has the name attribute "registration"
+        $("form[name='add']").validate({
+            // Specify validation rules
+            rules: {
+                // The key name on the left side is the name attribute
+                // of an input field. Validation rules are defined
+                // on the right side
+                firstName: { 
+                    required: true,
+                    maxlength: 30
+                },
+                lastName: {
+                    required: true,
+                    maxlength: 30
+                },
+                contactNumber: {
+                    required: true,
+                    maxlength: 10
+                },
+                emailId: {
+                    required: true,
+                    maxlength: 50,
+                    // Specify that email should be validated
+                    // by the built-in "email" rule
+                    email: true
+                },
+                age: {
+                    required: true,
+                    maxlength: 3
+                }
+            },
+            // Specify validation error messages
+            messages: {
+                firstName: {
+                    required: "Please provide a password",
+                    maxlength: "Your password must be at max 30 characters long"
+                },
+                lastName: {
+                    required: "Please provide a password",
+                    maxlength: "Your password must be at max 30 characters long"
+                },
+                contactNumber: {
+                    required: "Please provide a password",
+                    maxlength: "Your password must be at max 10 characters long"
+                },
+                emailId: {
+                    required: "Please provide a password",
+                    maxlength: "Your password must be at max 50 characters long"
+                },
+                age: {
+                    required: "Please provide a password",
+                    maxlength: "Your password must be at max 3 characters long"
+                }
+            },
+            // Make sure the form is submitted to the destination defined
+            // in the "action" attribute of the form when valid
+            submitHandler: function (form) {
+                form.submit();
+            }
+        });
+    });
+    
     
 </script>
