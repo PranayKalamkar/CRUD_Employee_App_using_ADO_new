@@ -28,13 +28,14 @@ namespace EmployeeApp.EmployeeDataManager.DAL
                 EmployeeModel employeemodel = new EmployeeModel();
 
                 //employeemodel.Id = (int)reader["id"];
-                //employeemodel.Id = CommonConversion.ConvertDBNullToInt(item["id"]);
-                employeemodel.firstName = CommonConversion.ConvertDBNullToString(item["id"]).ToString();
-                //employeemodel.lastName = reader["last_name"].ToString();
-                //employeemodel.contactNumber = reader["contact_number"].ToString();
-                //employeemodel.emailId = reader["emailid"].ToString();
-                //employeemodel.age = reader["age"].ToString();
-                //employeemodel.imagePath = reader["image"].ToString();
+                employeemodel.Id = item["id"].ConvertDBNullToInt();
+                //employeemodel.firstName = CommonConversion.ConvertDBNullToString(item["first_name"]);
+                employeemodel.firstName = item["first_name"].ConvertDBNullToString();
+                employeemodel.lastName = item["last_name"].ConvertDBNullToString();
+                employeemodel.contactNumber = item["contact_number"].ConvertDBNullToString();
+                employeemodel.emailId = item["emailid"].ConvertDBNullToString();
+                employeemodel.age = item["age"].ConvertDBNullToString();
+                employeemodel.imagePath = item["image"].ConvertDBNullToString();
 
                 employeeList.Add(employeemodel);
 

@@ -17,7 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
 //builder.Services.AddDBManager();//System.Text.Json.JsonNamingPolicy.CamelCase);
-builder.Services.AddAppSetting();
+builder.Services.AddAppSetting(); //new
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -384,7 +384,7 @@ namespace EmployeeApp.Controllers
                 return ex.StackTrace;
             }
         }
-
+           
         public IActionResult test()
         {
             return Json(_IEmployeeBAL.GetEmployeeList());
