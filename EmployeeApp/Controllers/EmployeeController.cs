@@ -51,32 +51,33 @@ namespace EmployeeApp.Controllers
         } 
         public IActionResult EmployeeList()
         {
-            List<EmployeeModel> employeeList = new List<EmployeeModel>();
-            const string storedProcedure = "GetAllEmployees";
+            //List<EmployeeModel> employeeList = new List<EmployeeModel>();
+            //const string storedProcedure = "GetAllEmployees";
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            using (MySqlCommand command = new MySqlCommand(storedProcedure, connection))
-            {
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                connection.Open();
-                
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read()) 
-                {
-                    EmployeeModel employeemodel = new EmployeeModel();
+            //using (MySqlConnection connection = new MySqlConnection(connectionString))
+            //using (MySqlCommand command = new MySqlCommand(storedProcedure, connection))
+            //{
+            //    command.CommandType = System.Data.CommandType.StoredProcedure;
+            //    connection.Open();
 
-                    employeemodel.Id = (int)reader["id"];
-                    employeemodel.firstName = reader["first_name"].ToString();
-                    employeemodel.lastName = reader["last_name"].ToString();
-                    employeemodel.contactNumber = reader["contact_number"].ToString();
-                    employeemodel.emailId = reader["emailid"].ToString();
-                    employeemodel.age = reader["age"].ToString();
-                    employeemodel.imagePath = reader["image"].ToString();
+            //    MySqlDataReader reader = command.ExecuteReader();
+            //    while (reader.Read()) 
+            //    {
+            //        EmployeeModel employeemodel = new EmployeeModel();
 
-                    employeeList.Add(employeemodel);
-                }
-            }
-            return Json(employeeList);
+            //        employeemodel.Id = (int)reader["id"];
+            //        employeemodel.firstName = reader["first_name"].ToString();
+            //        employeemodel.lastName = reader["last_name"].ToString();
+            //        employeemodel.contactNumber = reader["contact_number"].ToString();
+            //        employeemodel.emailId = reader["emailid"].ToString();
+            //        employeemodel.age = reader["age"].ToString();
+            //        employeemodel.imagePath = reader["image"].ToString();
+
+            //        employeeList.Add(employeemodel);
+            //    }
+            //}
+            //return Json(employeeList);
+            return Json(_IEmployeeBAL.GetEmployeeList());
         }
 
         public IActionResult search()
@@ -127,36 +128,38 @@ namespace EmployeeApp.Controllers
             //AddEmployeeModel test = new();
             
             EmployeeModel employee = JsonSerializer.Deserialize<EmployeeModel>(model)!;
-            employee.imageFile = file;
 
-            employee.imagePath = uploadImage(employee.imageFile);
+            _IEmployeeBAL.AddEmployee(employee, file);
+            //employee.imageFile = file;
 
-            Console.WriteLine(employee.imagePath);
-            try
-            {
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    const string storedProcedure = "InsertEmployee";
-                    using (MySqlCommand command = new MySqlCommand(storedProcedure, connection))
-                    {
-                        command.CommandType = System.Data.CommandType.StoredProcedure;
-                        connection.Open();
-                        command.Parameters.AddWithValue("@firstName", employee.firstName);
-                        command.Parameters.AddWithValue("@lastName", employee.lastName);
-                        command.Parameters.AddWithValue("@contactNumber", employee.contactNumber);
-                        command.Parameters.AddWithValue("@emailId", employee.emailId);
-                        command.Parameters.AddWithValue("@age", employee.age);
-                        command.Parameters.AddWithValue("@imagePath", employee.imagePath);
-                        command.ExecuteNonQuery();
-                    }
+            //employee.imagePath = uploadImage(employee.imageFile);
 
-                }
+            //Console.WriteLine(employee.imagePath);
+            //try
+            //{
+            //    using (MySqlConnection connection = new MySqlConnection(connectionString))
+            //    {
+            //        const string storedProcedure = "InsertEmployee";
+            //        using (MySqlCommand command = new MySqlCommand(storedProcedure, connection))
+            //        {
+            //            command.CommandType = System.Data.CommandType.StoredProcedure;
+            //            connection.Open();
+            //            command.Parameters.AddWithValue("@firstName", employee.firstName);
+            //            command.Parameters.AddWithValue("@lastName", employee.lastName);
+            //            command.Parameters.AddWithValue("@contactNumber", employee.contactNumber);
+            //            command.Parameters.AddWithValue("@emailId", employee.emailId);
+            //            command.Parameters.AddWithValue("@age", employee.age);
+            //            command.Parameters.AddWithValue("@imagePath", employee.imagePath);
+            //            command.ExecuteNonQuery();
+            //        }
 
-            }
-            catch (Exception ex)
-            {
-               Console.WriteLine(ex.Message);
-            }
+            //    }
+
+            //}
+            //catch (Exception ex)
+            //{
+            //   Console.WriteLine(ex.Message);
+            //}
             return Json("Index");
         }
 
@@ -322,21 +325,21 @@ namespace EmployeeApp.Controllers
                 }
             }
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                string queryString = "DeleteEmployeeById";
+            //using (MySqlConnection connection = new MySqlConnection(connectionString))
+            //{
+            //    string queryString = "DeleteEmployeeById";
 
-                using (MySqlCommand command = new MySqlCommand(queryString, connection))
-                {
-                    command.CommandType = CommandType.StoredProcedure;
+            //    using (MySqlCommand command = new MySqlCommand(queryString, connection))
+            //    {
+            //        command.CommandType = CommandType.StoredProcedure;
 
-                    command.Parameters.AddWithValue("@employeeId", id);
+            //        command.Parameters.AddWithValue("@employeeId", id);
 
-                    connection.Open();
+            //        connection.Open();
 
-                    command.ExecuteNonQuery();
-                }
-            }
+            //        command.ExecuteNonQuery();
+            //    }
+            //}
          
             return Json("Index");
         }

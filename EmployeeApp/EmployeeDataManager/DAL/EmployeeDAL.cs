@@ -40,34 +40,48 @@ namespace EmployeeApp.EmployeeDataManager.DAL
                 employeeList.Add(employeemodel);
 
             }
-            //const string storedProcedure = "GetAllEmployees";
-
-
-            //using (MySqlConnection connection = new MySqlConnection())
-            //using (MySqlCommand command = new MySqlCommand(storedProcedure, connection))
-            //{
-            //    command.CommandType = System.Data.CommandType.StoredProcedure;
-            //    connection.Open();
-
-            //    MySqlDataReader reader = command.ExecuteReader();
-            //    while (reader.Read())
-            //    {
-            //        EmployeeModel employeemodel = new EmployeeModel();
-
-            //        employeemodel.Id = (int)reader["id"];
-            //        employeemodel.firstName = reader["first_name"].ToString();
-            //        employeemodel.lastName = reader["last_name"].ToString();
-            //        employeemodel.contactNumber = reader["contact_number"].ToString();
-            //        employeemodel.emailId = reader["emailid"].ToString();
-            //        employeemodel.age = reader["age"].ToString();
-            //        employeemodel.imagePath = reader["image"].ToString();
-
-            //        employeeList.Add(employeemodel);
-            //    }
-            //}
+            
             return employeeList;
         }
 
-       
+        public EmployeeModel AddEmployee(EmployeeModel employeemodel)
+        {
+            _dBManager.InitDbCommand("InsertEmployee");
+
+            _dBManager.AddCMDParam("@firstName", employeemodel.firstName);
+            _dBManager.AddCMDParam("@lastName", employeemodel.lastName);
+            _dBManager.AddCMDParam("@contactNumber", employeemodel.contactNumber);
+            _dBManager.AddCMDParam("@emailId", employeemodel.emailId);
+            _dBManager.AddCMDParam("@age", employeemodel.age);
+            _dBManager.AddCMDParam("@imagePath", employeemodel.imagePath);
+
+            _dBManager.ExecuteNonQuery();
+
+            return employeemodel;
+        }
+
+        public void DeleteEmployee(int? id)
+        {
+            
+
+            _dBManager.InitDbCommand("DeleteEmployeeById");
+
+            _dBManager.AddCMDParam("@employeeId", id);
+
+            _dBManager.ExecuteNonQuery();
+
+            
+        }
+
+        //public EmployeeModel PopulateData(int? emp_id)
+        //{
+        //    EmployeeModel employeemodel = null;
+
+        //    _dBManager.InitDbCommand("GetEmployeeById");
+
+        //    DataSet ds = _dBManager.ExecuteDataSet();
+
+        //    return employeemodel;
+        //}
     }
 }
