@@ -204,30 +204,6 @@
         </tr>
     </thead>
     <tbody>
-        @*  @{
-        int i = 1;
-        @foreach (var item in Model)
-        {
-        <tr>
-        <td>@i</td>
-        <td>@Html.DisplayFor(modelItem => item.Id)</td>
-        <td>@Html.DisplayFor(modelItem => item.firstName)</td>
-        <td>@Html.DisplayFor(modelItem => item.lastName)</td>
-        <td>@Html.DisplayFor(modelItem => item.contactNumber)</td>
-        <td>@Html.DisplayFor(modelItem => item.emailId)</td>
-        <td>@Html.DisplayFor(modelItem => item.age)</td>
-        <td><img src="~/image/@item.imagePath" width="30px"></td>
-        <td>
-        <div class="btn-group" aria-label="Basic example">
-        <a asp-action="update" asp-route-id="@item.Id" class="btn btn-primary btn-sm">Edit</a>
-        <a asp-action="delete" asp-route-id="@item.Id" class="btn btn-primary btn-sm">Delete</a>
-        </div>
-        </td>
-        </tr>
-        i++;
-        }
-        }
-        *@
     </tbody>
 </table>
 
@@ -294,6 +270,7 @@
             contactNumber: $('#contactNumber').val(),
             emailId: $('#emailId').val(),
             age: $('#age').val(),
+            
             // imagePath: $('#imageFile')[0].files[0],
            
         }
@@ -304,30 +281,39 @@
 
         $.ajax({        
             url: "/employee/create",
-            // type: "POST",
             data: formData,
             processData: false,
             contentType: false,
             cache: false,
             type: "POST",
-            // contentType: "application/json;charset=utf-8",
-            // dataType: "json",
-            success: function (data, textStatus, jqXHR) {
-                // datatable.destroy();   
-                // alert('Success!');
-                $('#addEmployee').modal('hide');
-                // location.reload();
-                Swal.fire({
-                    title: "Employee Succesfully Added!",
-                    text: "close",
-                    icon: "success"
-                });
-                datatable.destroy();
-                getEmployeeList();
+            success: function (data) {
+                debugger;
+                if (data == "Email already exist!") 
+                {
+                    Swal.fire({
+                        title: "Oops Email already exist!",
+                        text: "close",
+                        icon: "Error"
+                    });
+                }
+                else{
+
+                    $('#addEmployee').modal('hide');
+
+                    Swal.fire({
+                        title: "Good job!",
+                        text: "Employee saved successfully!",
+                        icon: "success",
+                        button: "Ok",
+                    });
+                    datatable.destroy();
+                    getEmployeeList();
+                }            
             },
-            error: function (errormessage) {
-                alert(errormessage.responseText);
-            },
+            error: function (errorThrown) {
+                console.log("Error saving employee:", errorThrown);
+                Swal.fire("Oops", "An error occurred while saving your data, Please try again later.", "error");
+            }
         });
     }
 
@@ -569,24 +555,24 @@
             // Specify validation error messages
             messages: {
                 firstName: {
-                    required: "Please provide a password",
-                    maxlength: "Your password must be at max 30 characters long"
+                    required: "Please provide a firstName",
+                    maxlength: "Your firstName must be at max 30 characters long"
                 },
                 lastName: {
-                    required: "Please provide a password",
-                    maxlength: "Your password must be at max 30 characters long"
+                    required: "Please provide a lastName",
+                    maxlength: "Your lastName must be at max 30 characters long"
                 },
                 contactNumber: {
-                    required: "Please provide a password",
-                    maxlength: "Your password must be at max 10 characters long"
+                    required: "Please provide a contactNumber",
+                    maxlength: "Your contactNumber must be at max 10 characters long"
                 },
                 emailId: {
-                    required: "Please provide a password",
-                    maxlength: "Your password must be at max 50 characters long"
+                    required: "Please provide a emailId",
+                    maxlength: "Your emailId must be at max 50 characters long"
                 },
                 age: {
-                    required: "Please provide a password",
-                    maxlength: "Your password must be at max 3 characters long"
+                    required: "Please provide a age",
+                    maxlength: "Your age must be at max 3 characters long"
                 }
             },
             // Make sure the form is submitted to the destination defined

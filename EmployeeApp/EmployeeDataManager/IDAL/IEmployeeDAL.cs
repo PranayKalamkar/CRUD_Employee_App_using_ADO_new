@@ -8,6 +8,14 @@ namespace EmployeeApp.EmployeeDataManager.IDAL
 
         public EmployeeModel AddEmployee(EmployeeModel employeemodel);
 
-        //public EmployeeModel PopulateData(int? emp_id);
+        public bool CheckEmailExist(string emailId);
+
+        public EmployeeModel PopulateData(int emp_id);
+
+        public EmployeeModel UpdateEmployee(EmployeeModel employeemodel);
+
+        public void DeleteEmployee(int id);
+
+        public string GetEmployeeImageById1(int id);
     }
 }

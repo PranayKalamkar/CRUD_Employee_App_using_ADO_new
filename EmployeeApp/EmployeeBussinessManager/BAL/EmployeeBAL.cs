@@ -23,13 +23,40 @@ namespace EmployeeApp.EmployeeBussinessManager.BAL
 
             employeemodel.imagePath = uploadImage(employeemodel.imageFile);
 
-            return _IEmployeeDAL.AddEmployee(employeemodel);
+            bool emailExist = CheckEmailExist(employeemodel.emailId);
+
+            if(emailExist)
+            {
+                return null;
+            }
+            else
+            {
+                return _IEmployeeDAL.AddEmployee(employeemodel);
+            }
         }
 
-        public EmployeeModel DeleteEmployee(int? id)
+        public bool CheckEmailExist(string emailId)
         {
-            return _IEmployeeDAL.DeleteEmployee(id);
+            return _IEmployeeDAL.CheckEmailExist(emailId);
         }
+
+        public void DeleteEmployee(int id)
+        {
+            string existingImage = _IEmployeeDAL.GetEmployeeImageById1(id);
+
+            if (!string.IsNullOrEmpty(existingImage))
+            {
+                string oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "image", existingImage);
+
+                if (System.IO.File.Exists(oldImagePath))
+                {
+                    System.IO.File.Delete(oldImagePath);
+                }
+            }
+
+            _IEmployeeDAL.DeleteEmployee(id);
+        }
+
 
         public string uploadImage(IFormFile imageFile)
         {
@@ -75,9 +102,28 @@ namespace EmployeeApp.EmployeeBussinessManager.BAL
             }
         }
 
-        //EmployeeModel IEmployeeBAL.PopulateData(int? emp_id)
-        //{
-        //    return null;
-        //}
+        public EmployeeModel PopulateData(int emp_id)
+        {
+            return _IEmployeeDAL.PopulateData(emp_id);
+        }
+
+        public EmployeeModel UpdateEmployee(int id,EmployeeModel employeemodel, IFormFile file)
+        {
+            employeemodel.Id = id;
+
+            employeemodel.imageFile = file;
+
+            string existingImage = _IEmployeeDAL.GetEmployeeImageById1(id);
+
+            if(employeemodel.imageFile != null)
+            {
+                employeemodel.imagePath = uploadImage(employeemodel.imageFile);
+            }
+            else
+            {
+                employeemodel.imagePath = existingImage;
+            }
+            return _IEmployeeDAL.UpdateEmployee(employeemodel);
+        }
     }
 }

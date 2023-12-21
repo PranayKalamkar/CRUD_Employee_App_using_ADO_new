@@ -8,8 +8,14 @@ namespace EmployeeApp.EmployeeBussinessManager.IBAL
 
         public EmployeeModel AddEmployee(EmployeeModel employeemodel, IFormFile imageFile);
 
-        public void DeleteEmployee(int? id);
+        public bool CheckEmailExist(string emailId);
 
-        //public EmployeeModel PopulateData(int? emp_id);
+        public void DeleteEmployee(int id);
+
+        public EmployeeModel PopulateData(int emp_id);
+
+        public EmployeeModel UpdateEmployee(int id, EmployeeModel employeemodel, IFormFile file);
+
+        public string uploadImage(IFormFile imageFile);
     }
 }
