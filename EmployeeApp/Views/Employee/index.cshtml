@@ -30,31 +30,31 @@
 
                     <div class="mb-3">
                         <label for="firstName" class="form-label">First Name : </label>
-                        <input id="firstName" type="text" name="firstName" class="form-control" autocomplete="off" maxlength="30" required />
+                        <input id="firstName" type="text" onblur="validateField('firstName')" name="firstName" class="form-control" autocomplete="off" maxlength="30" required />
                         
                     </div>
 
                     <div class="mb-3">
                         <label for="lastName" class="form-label">Last Name : </label>
-                        <input id="lastName" type="text" name="lastName" class="form-control" autocomplete="off" maxlength="30" required />
+                        <input id="lastName" type="text" onblur="validateField('lastName')" name="lastName"  class="form-control" autocomplete="off" maxlength="30" required />
                         
                     </div>
 
                     <div class="mb-3">
                         <label for="contactNumber" class="form-label">Contact Number : </label>
-                        <input id="contactNumber" type="tel" name="contactNumber" class="form-control" autocomplete="off" maxlength="10" required pattern="\d{10}" />
+                        <input id="contactNumber" type="tel" onblur="validateField('contactNumber')" name="contactNumber" class="form-control" autocomplete="off" maxlength="10" required pattern="\d{10}" />
                         
                     </div>
 
                     <div class="mb-3">
                         <label for="emailId" class="form-label">Email Id : </label>
-                        <input id="emailId" type="email" name="emailId" class="form-control" autocomplete="off" maxlength="50" required />
+                        <input id="emailId" type="email" onblur="validateField('emailId')" name="emailId" class="form-control" autocomplete="off" maxlength="50" required />
                         
                     </div>
 
                     <div class="mb-3">
                         <label for="age" class="form-label">Age : </label>
-                        <input id="age" type="number" name="age" class="form-control" autocomplete="off" maxlength="3" required />
+                        <input id="age" type="number" onblur="validateField('age')" name="age" pattern="^\d{1,3}$" class="form-control" autocomplete="off" maxlength="3" required />
                         
                     </div>
 
@@ -308,7 +308,8 @@
                     });
                     datatable.destroy();
                     getEmployeeList();
-                }            
+                }
+                // window.location.reload();
             },
             error: function (errorThrown) {
                 console.log("Error saving employee:", errorThrown);
@@ -555,33 +556,61 @@
             // Specify validation error messages
             messages: {
                 firstName: {
-                    required: "Please provide a firstName",
-                    maxlength: "Your firstName must be at max 30 characters long"
+                    required: "Please provide a First Name!",
+                    maxlength: "Your First Name must be at max 30 characters long"
                 },
                 lastName: {
-                    required: "Please provide a lastName",
-                    maxlength: "Your lastName must be at max 30 characters long"
+                    required: "Please provide a Last Name!",
+                    maxlength: "Your Last Name must be at max 30 characters long"
                 },
                 contactNumber: {
-                    required: "Please provide a contactNumber",
-                    maxlength: "Your contactNumber must be at max 10 characters long"
+                    required: "Please provide a Contact Number!",
+                    maxlength: "Your Contact Number must be at max 10 characters long"
                 },
                 emailId: {
-                    required: "Please provide a emailId",
-                    maxlength: "Your emailId must be at max 50 characters long"
+                    required: "Please provide a EmailId!",
+                    maxlength: "Your EmailId must be at max 50 characters long"
                 },
                 age: {
-                    required: "Please provide a age",
-                    maxlength: "Your age must be at max 3 characters long"
+                    required: "Please provide a Age!",
+                    maxlength: "Your Age must be at max 3 characters long"
                 }
             },
+
+            errorClass: "error", // Specify the CSS class for error messages
+            errorElement: "div",
             // Make sure the form is submitted to the destination defined
             // in the "action" attribute of the form when valid
             submitHandler: function (form) {
                 form.submit();
             }
         });
+
+
+        $("form[name='add'] input[name='firstName']").on("blur", function () {
+            $("form[name='add']").validate().element($(this));
+        });
+
+        $("form[name='add'] input[name='lastName']").on("blur", function () {
+            $("form[name='add']").validate().element($(this));
+        });
+
+        $("form[name='add'] input[name='contactNumber']").on("blur", function () {
+            $("form[name='add']").validate().element($(this));
+        });
+
+        $("form[name='add'] input[name='emailId']").on("blur", function () {
+            $("form[name='add']").validate().element($(this));
+        });
+
+        $("form[name='add'] input[name='age']").on("blur", function () {
+            $("form[name='add']").validate().element($(this));
+        });
     });
+
+    function validateField(fieldName) {
+        $("form[name='add']").validate().element($("form[name='add'] input[name='" + fieldName + "']"));
+    }
     
     
 </script>
